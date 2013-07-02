@@ -1,5 +1,7 @@
 (function () {
-    Meteor.loginWithInstagram = function (options, callback) {
+
+
+    Instagram.requestCredential = function (options, callback) {
         // support both (options, callback) and (callback).
         if (!callback && typeof options === 'function') {
             callback = options;
@@ -13,6 +15,7 @@
         }
 
         var state = Meteor.uuid();
+        //var credentialToken = Random.id();
         // XXX need to support configuring access_type and scope
         var loginUrl =
             'https://instagram.com/oauth/authorize' +
@@ -22,7 +25,16 @@
                 '&scope=' + config.scope +
                 '&state=' + state;
 
-        Accounts.oauth.initiateLogin(state, loginUrl, callback);
+        //Accounts.oauth.initiateLogin(state, loginUrl, callback);
+        Oauth.initiateLogin(state, loginUrl, callback);
     };
 
+    Meteor.loginWithInstagram = function(options, callback) {
+        var credentialRequestCompleteCallback = Accounts.oauth.credentialRequestCompleteHandler(callback);
+        Instagram.requestCredential(options, credentialRequestCompleteCallback);
+    };
+
+
+
 }) ();
+

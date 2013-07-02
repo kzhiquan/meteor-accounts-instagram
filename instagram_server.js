@@ -1,6 +1,9 @@
 (function () {
 
-    Accounts.oauth.registerService('instagram', 2, function(query) {
+    Accounts.oauth.registerService('instagram');
+
+
+    Oauth.registerService('instagram', 2, null, function(query) {
 
         var accessToken = getAccessToken(query);
 
@@ -42,4 +45,6 @@
             throw result.content;
         return result.content;
     };
+
+    
 })();
